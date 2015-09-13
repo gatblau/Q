@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <CATALOGUE
+        id="1"
+        author="gatblau.org"
+        owner="gatblau.org"
+        name="Test Catalogue"
+        description="A catalogue for functional testing purposes."
+        time="2015-01-01"
+        version="1"/>
+</dataset>

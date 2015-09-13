@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <FEATURE
+        name="Test Feature"
+        description="A feature for functional testing purposes."
+        featureSet_id="1"/>
+</dataset>
