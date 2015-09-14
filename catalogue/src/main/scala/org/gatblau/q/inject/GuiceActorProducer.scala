@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.routes
+package org.gatblau.q.inject
 
-import javax.inject.Inject
-import org.gatblau.q.routing.Routes
-import org.gatblau.q.services.CatalogueService
-import spray.http.MediaTypes
-import spray.routing.Directives
+import akka.actor.{IndirectActorProducer, Actor}
+import com.google.inject.Injector
 
-import scala.concurrent.ExecutionContext
+class GuiceActorProducer[A <: Actor](injector: Injector, actor: Class[A])
+  extends IndirectActorProducer {
 
-class CatalogueRoutes @Inject()(catalogue: CatalogueService)(
-  implicit context: ExecutionContext)
-    extends Routes
-    with Directives {
+  override def actorClass = {
+    actor
+  }
 
-//  import MediaTypes._
-
-  val route = {
-    import JsonFormatters._
-    path("catalogue") {
-      get {
-        complete(catalogue.findAll)
-      }
-    }
+  override def produce = {
+    injector.getInstance(actorClass)
   }
 }

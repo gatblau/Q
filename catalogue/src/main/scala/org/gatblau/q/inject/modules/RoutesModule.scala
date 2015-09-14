@@ -14,33 +14,11 @@
  * limitations under the License.
  */
 
-package org.gatblau.q
+package org.gatblau.q.inject.modules
 
-import javax.inject.Named
-
-import akka.actor.{ActorRef, ActorSystem}
-import com.google.inject.{Singleton, Provides, AbstractModule}
 import net.codingwell.scalaguice.{ScalaMultibinder, ScalaModule}
 import org.gatblau.q.routes.CatalogueRoutes
-import org.gatblau.q.services.{CatalogueService, CatalogueServiceImpl}
-
-class MainModule extends AbstractModule with ScalaModule {
-
-  def configure {
-    install(new ConfigModule)
-    install(new AkkaModule)
-    install(new RoutesModule)
-    install((new ServicesModule))
-    bind[WebServer]
-  }
-
-  @Provides
-  @Singleton
-  @Named("RouterActor")
-  def provideRouterActor(system: ActorSystem): ActorRef = {
-    system.actorOf(GuiceExtension(system).props[RouterActor])
-  }
-}
+import org.gatblau.q.routing.Routes
 
 class RoutesModule extends ScalaModule {
   private lazy val routeBinder = ScalaMultibinder.newSetBinder[Routes](binder)
@@ -51,12 +29,5 @@ class RoutesModule extends ScalaModule {
 
   def configure {
     bindRoute.to[CatalogueRoutes]
-  }
-}
-
-class ServicesModule  extends ScalaModule {
-
-  def configure {
-    bind[CatalogueService].to[CatalogueServiceImpl]
   }
 }

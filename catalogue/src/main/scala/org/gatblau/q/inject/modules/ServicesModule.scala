@@ -14,29 +14,14 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.routes
+package org.gatblau.q.inject.modules
 
-import javax.inject.Inject
-import org.gatblau.q.routing.Routes
-import org.gatblau.q.services.CatalogueService
-import spray.http.MediaTypes
-import spray.routing.Directives
+import net.codingwell.scalaguice.ScalaModule
+import org.gatblau.q.services.{CatalogueServiceImpl, CatalogueService}
 
-import scala.concurrent.ExecutionContext
+class ServicesModule  extends ScalaModule {
 
-class CatalogueRoutes @Inject()(catalogue: CatalogueService)(
-  implicit context: ExecutionContext)
-    extends Routes
-    with Directives {
-
-//  import MediaTypes._
-
-  val route = {
-    import JsonFormatters._
-    path("catalogue") {
-      get {
-        complete(catalogue.findAll)
-      }
-    }
+  def configure {
+    bind[CatalogueService].to[CatalogueServiceImpl]
   }
 }

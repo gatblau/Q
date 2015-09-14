@@ -14,29 +14,10 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.routes
+package org.gatblau.q.routing
 
-import javax.inject.Inject
-import org.gatblau.q.routing.Routes
-import org.gatblau.q.services.CatalogueService
-import spray.http.MediaTypes
-import spray.routing.Directives
-
-import scala.concurrent.ExecutionContext
-
-class CatalogueRoutes @Inject()(catalogue: CatalogueService)(
-  implicit context: ExecutionContext)
-    extends Routes
-    with Directives {
-
-//  import MediaTypes._
-
-  val route = {
-    import JsonFormatters._
-    path("catalogue") {
-      get {
-        complete(catalogue.findAll)
-      }
-    }
-  }
-}
+case class ServiceException(
+   statusCode: Int,
+   msg: String,
+   cause: Throwable = null
+) extends Exception(msg, cause)

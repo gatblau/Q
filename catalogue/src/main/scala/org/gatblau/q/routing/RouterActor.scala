@@ -14,29 +14,22 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.routes
+package org.gatblau.q.routing
 
 import javax.inject.Inject
-import org.gatblau.q.routing.Routes
-import org.gatblau.q.services.CatalogueService
-import spray.http.MediaTypes
-import spray.routing.Directives
 
-import scala.concurrent.ExecutionContext
+import akka.actor.Actor
 
-class CatalogueRoutes @Inject()(catalogue: CatalogueService)(
-  implicit context: ExecutionContext)
-    extends Routes
-    with Directives {
+class RouterActor @Inject()(routeSet: Set[Routes])
+  extends Actor with Router {
 
-//  import MediaTypes._
+  protected[this] def routeSeq = routeSet.toSeq
 
-  val route = {
-    import JsonFormatters._
-    path("catalogue") {
-      get {
-        complete(catalogue.findAll)
-      }
-    }
+  def actorRefFactory = {
+    context
+  }
+
+  def receive = {
+    runRoute(routes)
   }
 }

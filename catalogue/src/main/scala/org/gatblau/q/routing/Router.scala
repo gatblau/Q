@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package org.gatblau.q
+package org.gatblau.q.routing
 
-import javax.inject.Inject
-
-import akka.actor.Actor
 import akka.event.Logging
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import spray.http.StatusCodes
-import spray.httpx.SprayJsonSupport
 import spray.routing._
 import spray.util.LoggingContext
 
-trait Routes extends SprayJsonSupport {
-  def route : Route
-}
-
 trait Router extends HttpService with Directives with LazyLogging {
 
-  protected[this] def routeSet: Seq[Routes]
+  protected[this] def routeSeq: Seq[Routes]
 
   private val rejectionHandler = {
     RejectionHandler {
@@ -42,10 +34,10 @@ trait Router extends HttpService with Directives with LazyLogging {
   }
 
   lazy val routes =
-    logRequestResponse("REQUEST", Logging.InfoLevel) {
+    logRequestResponse("Q", Logging.InfoLevel) {
       handleRejections(rejectionHandler) {
         handleExceptions(exceptionHandler) {
-          routeSet.tail.foldLeft(routeSet.head.route) {
+          routeSeq.tail.foldLeft(routeSeq.head.route) {
             (routes, next) => routes ~ next.route
           }
         }
@@ -55,27 +47,7 @@ trait Router extends HttpService with Directives with LazyLogging {
   private def exceptionHandler(implicit log: LoggingContext) = {
     ExceptionHandler {
       case e: ServiceException =>
-        complete(e.statusCode, e.msg)
+        complete(e.statusCode, e.msg, e.cause)
     }
   }
 }
-
-class RouterActor @Inject()(setOfRoutes: Set[Routes])
-  extends Actor with Router {
-
-  protected[this] def routeSet = setOfRoutes.toSeq
-
-  def actorRefFactory = {
-    context
-  }
-
-  def receive = {
-    runRoute(routes)
-  }
-}
-
-case class ServiceException(
-   statusCode: Int,
-   msg: String,
-   cause: Throwable = null
-) extends Exception(msg, cause)

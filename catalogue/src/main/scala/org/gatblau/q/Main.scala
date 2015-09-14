@@ -17,6 +17,7 @@
 package org.gatblau.q
 
 import com.google.inject.Guice
+import org.gatblau.q.inject.modules.MainModule
 
 object Main extends App {
   val injector = Guice.createInjector(new MainModule)

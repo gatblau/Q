@@ -1,6 +1,6 @@
 package features.catalogue
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import cucumber.api.{PendingException, CucumberOptions}
 import cucumber.api.java.en.And

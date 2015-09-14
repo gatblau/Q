@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package org.gatblau.q
+package org.gatblau.q.inject.modules
 
-import javax.inject.{Provider, Singleton}
-
-import akka.actor._
-import com.google.inject.{Injector, Provides}
 import com.typesafe.config.ConfigValueType._
 import com.typesafe.config.{Config, ConfigFactory, ConfigRenderOptions, ConfigValue}
 import com.typesafe.scalalogging.slf4j.LazyLogging
@@ -27,60 +23,6 @@ import net.codingwell.scalaguice.BindingExtensions._
 import net.codingwell.scalaguice.ScalaModule
 
 import scala.collection.JavaConversions._
-import scala.concurrent.ExecutionContext
-import scala.reflect._
-
-object GuiceExtension
-  extends ExtensionId[GuiceExtensionImpl]
-  with ExtensionIdProvider {
-
-  override def lookup() = {
-    GuiceExtension
-  }
-
-  override def createExtension(system: ExtendedActorSystem) = {
-    new GuiceExtensionImpl
-  }
-}
-
-class GuiceExtensionImpl extends Extension {
-  private var injector: Injector = _
-
-  def init(injector: Injector) {
-    this.injector = injector
-  }
-
-  def props[A <: Actor : ClassTag] = {
-    val producerClass = classTag[GuiceActorProducer[A]].runtimeClass
-    val actorClass = classTag[A].runtimeClass
-    Props(producerClass, injector, actorClass)
-  }
-}
-
-class AkkaModule extends ScalaModule {
-  def configure {
-  }
-
-  @Provides
-  @Singleton
-  def provideActorSystem(injector: Injector) : ActorSystem = {
-    val system = ActorSystem("Q")
-    GuiceExtension(system).init(injector)
-    system
-  }
-
-  @Provides
-  @Singleton
-  def provideActorRefFactory(systemProvider: Provider[ActorSystem]): ActorRefFactory = {
-    systemProvider.get
-  }
-
-  @Provides
-  @Singleton
-  def provideExecutionContext(systemProvider: Provider[ActorSystem]): ExecutionContext = {
-    systemProvider.get.dispatcher
-  }
-}
 
 class ConfigModule extends ScalaModule with LazyLogging {
   def configure {
@@ -167,14 +109,4 @@ class ConfigModule extends ScalaModule with LazyLogging {
   }
 }
 
-class GuiceActorProducer[A <: Actor](injector: Injector, actor: Class[A])
-  extends IndirectActorProducer {
 
-  override def actorClass = {
-    actor
-  }
-
-  override def produce = {
-    injector.getInstance(actorClass)
-  }
-}
