@@ -2,11 +2,13 @@ package features.catalogue
 
 import javax.inject.{Inject, Singleton}
 
-import cucumber.api.{PendingException, CucumberOptions}
 import cucumber.api.java.en.And
 import cucumber.api.junit.Cucumber
-import features.Common
-import org.gatblau.q._
+import cucumber.api.{CucumberOptions, PendingException}
+import features.Vars
+import org.gatblau.q.{Client, _}
+import org.gatblau.q.aspect.Tracking
+import org.gatblau.q.model.Catalogue
 import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
@@ -14,20 +16,25 @@ import org.junit.runner.RunWith
 class CatalogueRunner
 
 @Singleton
-class CatalogueSteps {
+class CatalogueSteps extends Q with Tracking {
+  import Vars._
 
-  @Inject var common  : Common = _
-  @Inject var drive   : Driver = _
+  private var client: Client = _
+
+  @Inject
+  def init(client: Client): Unit = {
+    this.client = track[Client](client)
+  }
 
   @And("^the information for a feature catalogue is known$")
   def the_information_for_a_feature_catalogue_is_known(): Unit = {
-    // http://spray.io/blog/2012-12-13-the-magnet-pattern/
-    throw new PendingException
+    cache.loadFromFile(DATA_FILE_CATALOGUE_REF)
   }
 
   @And("^the creation of the catalogue is requested$")
   def the_creation_of_the_catalogue_is_requested(): Unit = {
-    throw new PendingException
+    val c = Catalogue(0, Option("gatblau"), Option(""), "", Option(""), null, 0)
+    client.createCatalogue(c)
   }
 
   @And("^the catalogue information is recorded$")

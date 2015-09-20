@@ -14,8 +14,25 @@
  * limitations under the License.
  */
 
-package org.gatblau.q
+package org.gatblau.q.dsl
 
-trait Driver {
+import org.gatblau.q.util.{Caching, Logging, RecordLoading}
 
+trait CacheDirective extends Caching with RecordLoading with Logging {
+
+  object cache {
+
+    def loadFromFile(path: String) : Persist = Persist(path)
+
+    private[CacheDirective] case class Persist(path: String) {
+
+      Cache.set(path, loadRecord(path))
+
+      def saveToDatabase(source: String) : To = To(path, source)
+
+      private[Persist] case class To(path: String, source: String) {
+
+      }
+    }
+  }
 }

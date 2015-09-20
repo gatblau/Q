@@ -2,7 +2,7 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="org.gatblau.q.DefaultLayout">
+            <layout class="org.gatblau.q.Layout">
                 <syntaxColor>false</syntaxColor>
                 <formatHeaders>true</formatHeaders>
             </layout>

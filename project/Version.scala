@@ -15,4 +15,6 @@ object Version {
   val DBUNIT        = "2.5.1"
   val INJECT        = "1"
   val HIKARICP      = "2.4.1"
+  val ASPECTJ       = "1.8.7"
+  val JACKSON       = "2.6.1"
 }

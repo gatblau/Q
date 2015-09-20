@@ -47,7 +47,7 @@ trait Router extends HttpService with Directives with LazyLogging {
   private def exceptionHandler(implicit log: LoggingContext) = {
     ExceptionHandler {
       case e: ServiceException =>
-        complete(e.statusCode, e.msg, e.cause)
+        complete(e.statusCode, e.msg)
     }
   }
 }

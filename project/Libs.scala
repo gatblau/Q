@@ -34,4 +34,10 @@ object Libs {
   val dbunit        = "org.dbunit"                  %   "dbunit"                  % Version.DBUNIT
   val inject        = "javax.inject"                %   "javax.inject"            % Version.INJECT
   val hikaricp      = "com.zaxxer"                  %   "HikariCP"                % Version.HIKARICP
+  val scalaCompiler = "org.scala-lang"              %   "scala-compiler"          % Version.SCALA
+  val scalaReflect  = "org.scala-lang"              %   "scala-reflect"           % Version.SCALA
+  val aspectj       = "org.aspectj"                 %   "aspectjrt"               % Version.ASPECTJ
+  val aspectjWeaver = "org.aspectj"                 %   "aspectjweaver"           % Version.ASPECTJ
+  val jacksonBind   = "com.fasterxml.jackson.core"  %   "jackson-databind"        % Version.JACKSON
+  val jacksonScala  = "com.fasterxml.jackson.module"%   "jackson-module-scala_2.11" % "2.6.1"
 }

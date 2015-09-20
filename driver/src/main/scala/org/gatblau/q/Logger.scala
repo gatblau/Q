@@ -16,11 +16,9 @@
 
 package org.gatblau.q
 
-import java.util
-
 import gherkin.formatter.Formatter
 import gherkin.formatter.model._
-import FeatureInfo._
+import org.gatblau.q.FeatureInfo._
 
 /**
  * A gherkin formatter that captures the executing feature name, description and scenario name
@@ -39,7 +37,7 @@ import FeatureInfo._
  * </pre>
  */
 class Logger extends Formatter {
-  override def syntaxError(state: String, event: String, legalEvents: util.List[String], uri: String, line: Integer): Unit = {
+  override def syntaxError(state: String, event: String, legalEvents: java.util.List[String], uri: String, line: Integer): Unit = {
   }
 
   override def endOfScenarioLifeCycle(scenario: Scenario): Unit = {

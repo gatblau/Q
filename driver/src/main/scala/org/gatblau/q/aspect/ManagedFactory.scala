@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package org.gatblau.q
+package org.gatblau.q.aspect
 
-class QDriver extends Driver {
+import java.lang.reflect.Proxy
 
+// Original code by Jonas Boner from:
+// http://jonasboner.com/2008/12/09/real-world-scala-managing-cross-cutting-concerns-using-mixin-composition-and-aop/
+
+object ManagedFactory {
+  def createComponent[T](intf: Class[T], proxy: ManagedProxy): T =
+    Proxy.newProxyInstance(
+      proxy.target.getClass.getClassLoader,
+      Array(intf),
+      proxy).asInstanceOf[T]
 }

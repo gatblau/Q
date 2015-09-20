@@ -30,7 +30,9 @@ lazy val client = (project in file("client"))
       scalaGuice,
       cucumberJUnit exclude("info.cukes", "javadoc"),
       cucumberGuice,
-      inject
+      inject,
+      jacksonBind,
+      logback
     )
   )
   .dependsOn(driver)
@@ -40,6 +42,14 @@ lazy val driver = (project in file("driver"))
   .settings(libraryDependencies ++=
     Libs.compile(
       gherkin,
-      dbunit
+      dbunit,
+      scalaCompiler,
+      scalaReflect,
+      aspectj,
+      aspectjWeaver,
+      scalaGuice,
+      jacksonBind,
+      jacksonScala,
+      logback
     )
   )
