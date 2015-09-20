@@ -1,11 +1,10 @@
 package features
 
-import com.google.inject.{Guice, Stage, Injector}
+import com.google.inject.{Guice, Injector, Stage}
 import cucumber.api.guice.CucumberModules
 import cucumber.runtime.java.guice.InjectorSource
 import net.codingwell.scalaguice.ScalaModule
 import org.gatblau.q.{Client, ClientImpl}
-import org.gatblau.q.aspect.Registry
 
 class ClientInjectorSource extends InjectorSource {
   override def getInjector : Injector = {
