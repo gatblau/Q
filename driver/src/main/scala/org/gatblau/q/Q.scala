@@ -16,9 +16,14 @@
 
 package org.gatblau.q
 
+import org.gatblau.q.aspect.{TrackingInterceptor, ManagedProxy, ManagedFactory}
 import org.gatblau.q.util.{MapFactory, FileLoader}
 
 trait Q {
   val load = new FileLoader
   val map =new MapFactory
+
+  def track[T](instance: AnyRef)(implicit m: Manifest[T]) : T =
+    ManagedFactory.createComponent[T](
+      m.runtimeClass.asInstanceOf[Class[T]], new ManagedProxy(instance) with TrackingInterceptor)
 }

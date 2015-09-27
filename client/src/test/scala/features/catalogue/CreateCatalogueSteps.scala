@@ -4,13 +4,12 @@ import javax.inject.{Inject, Singleton}
 
 import cucumber.api.java.en.And
 import features.Vars
-import org.gatblau.q.aspect.Tracking
 import org.gatblau.q.model.Catalogue
 import org.gatblau.q.util.M
 import org.gatblau.q.{Client, Q}
 
 @Singleton
-class CreateCatalogueSteps extends Q with Tracking {
+class CreateCatalogueSteps extends Q {
   import Vars._
 
   private var api: Client = _

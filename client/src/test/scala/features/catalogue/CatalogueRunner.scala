@@ -7,7 +7,6 @@ import cucumber.api.junit.Cucumber
 import cucumber.api.{CucumberOptions, PendingException}
 import features.Vars
 import org.gatblau.q.{Client, _}
-import org.gatblau.q.aspect.Tracking
 import org.gatblau.q.model.Catalogue
 import org.junit.runner.RunWith
 

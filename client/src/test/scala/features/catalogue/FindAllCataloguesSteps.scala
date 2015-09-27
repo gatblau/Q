@@ -3,12 +3,10 @@ package features.catalogue
 import javax.inject.{Inject, Singleton}
 
 import cucumber.api.java.en.And
-import org.gatblau.q.aspect.Tracking
-import org.gatblau.q.model.Catalogue
 import org.gatblau.q.{Client, Q}
 
 @Singleton
-class FindAllCataloguesSteps extends Q with Tracking {
+class FindAllCataloguesSteps extends Q {
 
   private var client: Client = _
 
@@ -25,7 +23,6 @@ class FindAllCataloguesSteps extends Q with Tracking {
   @And("^the list of available catalogues is requested$")
   def the_list_of_available_catalogues_is_requested() : Unit = {
     val calatogues = client.getCatalogues
-    val a = 0
   }
 
   @And("^the list of available catalogues is produced$")
