@@ -18,9 +18,13 @@ package org.gatblau.q
 
 import org.gatblau.q.model._
 
+import scala.concurrent.Future
+
 trait Client {
 
   def isAvailable: Boolean
+
+  def getCatalogues: Seq[Catalogue]
 
   def createCatalogue(catalogueData: Catalogue): Long
 

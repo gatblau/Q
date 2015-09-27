@@ -16,8 +16,9 @@
 
 package org.gatblau.q
 
-import org.gatblau.q.dsl.{CacheDirective}
+import org.gatblau.q.util.{MapFactory, FileLoader}
 
-trait Q
-  extends CacheDirective {
+trait Q {
+  val load = new FileLoader
+  val map =new MapFactory
 }

@@ -18,10 +18,20 @@ package org.gatblau.q.util
 
 import org.dbunit.dataset.IDataSet
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader
+import org.gatblau.q.util.Strings._
 
-trait RecordLoading {
-  this: Logging =>
-  import Strings._
+class FileLoader extends Logging {
+  def ->(path: String) : Persist = Persist(path)
+
+  private[FileLoader] case class Persist(path: String) {
+
+    Cache.set(path, loadRecord(path))
+
+    def >>(source: String) : To = To(path, source)
+
+    private[FileLoader] case class To(path: String, source: String) {
+    }
+  }
 
   private[q] def loadRecord(dataFilePath: String): Record = {
     logStep
@@ -32,12 +42,10 @@ trait RecordLoading {
       set = loader.load(dataFilePath)
     }
     catch {
-      case ex: Exception => {
-        logFail(ex, String.format(getString(LOAD_RECORD_FAIL), dataFilePath))
-      }
+      case ex: Exception => logFail(ex, String.format(getString(LOAD_RECORD_FAIL), dataFilePath))
     }
     val record = new Record(set)
     logPass(String.format(getString(LOAD_RECORD_PASS), record.toJSON))
-    return record
+    record
   }
 }

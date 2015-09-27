@@ -3,42 +3,36 @@ package features.catalogue
 import javax.inject.{Inject, Singleton}
 
 import cucumber.api.java.en.And
-import cucumber.api.junit.Cucumber
-import cucumber.api.{CucumberOptions, PendingException}
 import features.Vars
-import org.gatblau.q.{Client, _}
 import org.gatblau.q.aspect.Tracking
 import org.gatblau.q.model.Catalogue
-import org.junit.runner.RunWith
-
-@RunWith(classOf[Cucumber])
-@CucumberOptions(plugin = Array("org.gatblau.q.Logger"))
-class CatalogueRunner
+import org.gatblau.q.util.M
+import org.gatblau.q.{Client, Q}
 
 @Singleton
-class CatalogueSteps extends Q with Tracking {
+class CreateCatalogueSteps extends Q with Tracking {
   import Vars._
 
-  private var client: Client = _
+  private var api: Client = _
+
+  def catalogue = implicitly[M[Catalogue]] from map.of[Catalogue](CatalogueReference)
 
   @Inject
   def init(client: Client): Unit = {
-    this.client = track[Client](client)
+    this.api = track[Client](client)
   }
 
   @And("^the information for a feature catalogue is known$")
   def the_information_for_a_feature_catalogue_is_known(): Unit = {
-    cache.loadFromFile(DATA_FILE_CATALOGUE_REF)
+    load -> CatalogueReference
   }
 
   @And("^the creation of the catalogue is requested$")
   def the_creation_of_the_catalogue_is_requested(): Unit = {
-    val c = Catalogue(0, Option("gatblau"), Option(""), "", Option(""), null, 0)
-    client.createCatalogue(c)
+    api createCatalogue catalogue
   }
 
   @And("^the catalogue information is recorded$")
   def the_catalogue_information_is_recorded(): Unit = {
-    throw new PendingException
   }
 }

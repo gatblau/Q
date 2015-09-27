@@ -17,6 +17,7 @@
 package org.gatblau.q.routes
 
 import javax.inject.Inject
+import org.gatblau.q.model.Catalogue
 import org.gatblau.q.routing.Routes
 import org.gatblau.q.services.CatalogueService
 import spray.http.MediaTypes
@@ -33,9 +34,16 @@ class CatalogueRoutes @Inject()(catalogue: CatalogueService)(
 
   val route = {
     import JsonFormatters._
-    path("catalogue") {
-      get {
+    get {
+      path("catalogue") {
         complete(catalogue.findAll)
+      }
+    } ~
+    post {
+      path("catalogue") {
+        entity(as[Catalogue]) { data =>
+          complete(catalogue.create(data).toString)
+        }
       }
     }
   }

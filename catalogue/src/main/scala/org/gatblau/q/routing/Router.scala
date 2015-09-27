@@ -17,7 +17,7 @@
 package org.gatblau.q.routing
 
 import akka.event.Logging
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import com.typesafe.scalalogging.LazyLogging
 import spray.http.StatusCodes
 import spray.routing._
 import spray.util.LoggingContext

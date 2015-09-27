@@ -1,5 +1,0 @@
-package features
-
-class Common {
-
-}

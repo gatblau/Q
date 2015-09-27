@@ -19,7 +19,11 @@ package org.gatblau.q.util
 import org.dbunit.dataset.{Column, DataSetException, ITable, IDataSet}
 import com.fasterxml.jackson.databind.ObjectMapper
 
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+
 class Record {
+
   var set: IDataSet = null
   private var table: ITable = null
   private var mapper: ObjectMapper = null
@@ -40,9 +44,7 @@ class Record {
       setTable(set.getTable(tableNames(0)))
     }
     catch {
-      case ex: Exception => {
-        throw new RuntimeException("Fail to create record.", ex)
-      }
+      case ex: Exception => throw new RuntimeException("Fail to create record.", ex)
     }
   }
 
@@ -77,25 +79,42 @@ class Record {
       }
     }
     catch {
-      case e: DataSetException => {
-        e.printStackTrace
+      case e: DataSetException =>
+        e.printStackTrace()
         return MatchResult(false, "")
-      }
     }
-    return MatchResult(true, "")
+    MatchResult(true, "")
   }
 
   private[q] case class MatchResult(matched: Boolean, mismathedColumn: String)
 
+  def hasValue(name: String) : Boolean = {
+    getFieldNames.indexOf(name) != -1
+  }
+
   def getValue[T](columnName: String): T = {
     try {
-      return table.getValue(0, columnName).asInstanceOf[T]
+      table.getValue(0, columnName).asInstanceOf[T]
     }
     catch {
-      case e: DataSetException => {
-        throw new RuntimeException(e)
-      }
+      case e: DataSetException => throw new RuntimeException(e)
     }
+  }
+
+  private[q] def getFieldNames : Array[String] = {
+    table.getTableMetaData.getColumns.map(c => c.getColumnName)
+  }
+
+  private[q] def getFieldValues : Seq[AnyRef] = {
+    val list = ListBuffer()
+    getFieldNames.foreach(name => list += getValue(name))
+    list.toSeq
+  }
+
+  private[q] def toMap : Map[String, String] = {
+    val map = new mutable.HashMap[String, String]()
+    getFieldNames.foreach(name => map += (name -> getValue(name)))
+    map.toMap
   }
 
   def toJSON: String = {
@@ -118,10 +137,8 @@ class Record {
       builder.append(" }")
     }
     catch {
-      case e: DataSetException => {
-        throw new RuntimeException(e)
-      }
+      case e: DataSetException => throw new RuntimeException(e)
     }
-    return builder.toString
+    builder.toString()
   }
 }

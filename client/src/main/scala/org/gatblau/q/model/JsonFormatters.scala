@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.dsl
+package org.gatblau.q.model
 
-import org.gatblau.q.util.{Caching, Logging, RecordLoading}
+import java.sql.Timestamp
 
-trait CacheDirective extends Caching with RecordLoading with Logging {
+import spray.json._
 
-  object cache {
+object JsonFormatters extends DefaultJsonProtocol {
 
-    def loadFromFile(path: String) : Persist = Persist(path)
-
-    private[CacheDirective] case class Persist(path: String) {
-
-      Cache.set(path, loadRecord(path))
-
-      def saveToDatabase(source: String) : To = To(path, source)
-
-      private[Persist] case class To(path: String, source: String) {
-
-      }
+  implicit object TimestampFormat extends JsonFormat[Timestamp] {
+    def write(obj: Timestamp) = JsNumber(obj.getTime)
+    def read(json: JsValue) = json match {
+      case JsNumber(time) => new Timestamp(time.toLong)
+      case _ => throw new DeserializationException("Date expected")
     }
   }
+
+  implicit val catalogueFormat = jsonFormat7(Catalogue)
 }

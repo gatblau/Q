@@ -16,16 +16,39 @@
 
 package org.gatblau.q
 
-import org.gatblau.q.model.{Feature, FeatureSet, Catalogue}
+import javax.inject.Inject
 
-class ClientImpl extends Client {
+import akka.actor.ActorSystem
+import org.gatblau.q.model._
+import spray.client.pipelining._
+import spray.http.HttpRequest
+import spray.httpx.SprayJsonSupport
+
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+
+@Inject
+class ClientImpl(serviceURI: String) extends Client {
+  implicit val system = ActorSystem()
+  private val timeout = 5.seconds
+  import JsonFormatters._
+  import SprayJsonSupport._
+  import system.dispatcher
+
   override def isAvailable: Boolean = ???
 
   override def createFeatureSet(featureSetData: FeatureSet): Long = ???
 
   override def createCatalogue(catalogueData: Catalogue): Long = {
-    0
+    val request : HttpRequest => Future[String] = sendReceive ~> unmarshal[String]
+    val result = Await.result(request(Post(s"$serviceURI/catalogue", catalogueData)), timeout)
+    result.toLong
   }
 
   override def createFeature(featureData: Feature): Long = ???
+
+  override def getCatalogues: Seq[Catalogue] = {
+    val request: HttpRequest => Future[Seq[Catalogue]] = sendReceive ~> unmarshal[Seq[Catalogue]]
+    Await.result(request(Get(s"$serviceURI/catalogue")), timeout)
+  }
 }

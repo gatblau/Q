@@ -22,7 +22,8 @@ import org.gatblau.q.model.Catalogue
 import scala.concurrent.Future
 
 trait CatalogueService {
-   def findAll() : Future[Seq[Catalogue]]
+   def findAll : Future[Seq[Catalogue]]
+   def create(catalogue: Catalogue) : Long
 }
 
 class CatalogueServiceImpl
@@ -30,7 +31,11 @@ class CatalogueServiceImpl
     with DataSource {
   import profile.api._
 
-  override def findAll(): Future[Seq[Catalogue]] = {
+  override def findAll: Future[Seq[Catalogue]] = {
     db.run(catalogue.result)
+  }
+
+  override def create(catalogue: Catalogue): Long = {
+    10
   }
 }

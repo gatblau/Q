@@ -18,21 +18,21 @@ package org.gatblau.q.inject.modules
 
 import com.typesafe.config.ConfigValueType._
 import com.typesafe.config.{Config, ConfigFactory, ConfigRenderOptions, ConfigValue}
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.BindingExtensions._
 import net.codingwell.scalaguice.ScalaModule
 
 import scala.collection.JavaConversions._
 
 class ConfigModule extends ScalaModule with LazyLogging {
-  def configure {
-    val config = loadConfig
+  def configure() {
+    val config = loadConfig()
     bind[Config].toInstance(config)
     bindConfig(config)
   }
 
   protected[this] def loadConfig() = {
-    enableEnvOverride
+    enableEnvOverride()
     val config = ConfigFactory.load
     logger.trace(s"${config.root.render(ConfigRenderOptions.concise.setFormatted(true))}")
     config
@@ -101,7 +101,7 @@ class ConfigModule extends ScalaModule with LazyLogging {
    *
    * java -jar server.jar -Denv=production
    */
-  def enableEnvOverride {
+  def enableEnvOverride() : Unit = {
     val env = System.getProperty("env")
     if (env != null) {
       System.setProperty("config.resource", env + ".conf")

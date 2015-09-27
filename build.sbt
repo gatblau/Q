@@ -1,11 +1,11 @@
 import Libs._
 import de.heikoseeberger.sbtheader.license.Apache2_0
 
-lazy val q = Project("q",file("."))
-  .settings(Settings.basicSettings: _*)
+lazy val q = Project("q", file("."))
     .aggregate(catalogue, client, driver)
 
 lazy val catalogue = (project in file("catalogue"))
+  .settings(Settings.basicSettings: _*)
   .settings(libraryDependencies ++=
     Libs.compile(
       scalaGuice,
@@ -15,6 +15,7 @@ lazy val catalogue = (project in file("catalogue"))
       sprayjson,
       sprayCan,
       scalaLogging,
+//      scalaModules,
       typesafeConf,
       hikaricp,
       mysqlconn exclude("mysql", "javadoc")
@@ -25,6 +26,7 @@ lazy val catalogue = (project in file("catalogue"))
 
 lazy val client = (project in file("client"))
   .settings(Settings.headerSettings)
+  .settings(Settings.basicSettings: _*)
   .settings(libraryDependencies ++=
     Libs.test(
       scalaGuice,
@@ -33,12 +35,18 @@ lazy val client = (project in file("client"))
       inject,
       jacksonBind,
       logback
+    ) ++
+    Libs.compile(
+      sprayClient,
+      sprayjson,
+      akkaActor
     )
   )
   .dependsOn(driver)
 
 lazy val driver = (project in file("driver"))
   .settings(Settings.headerSettings)
+  .settings(Settings.basicSettings: _*)
   .settings(libraryDependencies ++=
     Libs.compile(
       gherkin,

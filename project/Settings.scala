@@ -14,6 +14,7 @@ object Settings {
     startYear := Some(Vars.Q_YEAR),
     licenses := Seq(Vars.LIC_NAME -> new URL(Vars.LIC_URI)),
     scalaVersion := Version.SCALA,
+    scalaBinaryVersion := "2.11",
     autoScalaLibrary := false,
     resolvers ++= Libs.repos,
     scalacOptions := Seq(
@@ -23,7 +24,8 @@ object Settings {
       "-deprecation",
       "-target:jvm-1.8",
       "-language:_",
-      "-Xlog-reflective-calls"
+      "-Xlog-reflective-calls",
+      "-Ylog-classpath"
     )
   ) 
 

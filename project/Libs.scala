@@ -13,21 +13,22 @@ object Libs {
     "Scalaz Releases" at "http://dl.bintray.com/scalaz/releases/"
   )
 
-  val akkaActor     = "com.typesafe.akka"           %%  "akka-actor"              % Version.AKKA
-  val akkaSlf4j     = "com.typesafe.akka"           %%  "akka-slf4j"              % Version.AKKA
+  val akkaActor     = "com.typesafe.akka"           %   "akka-actor_2.11"         % Version.AKKA
+  val akkaSlf4j     = "com.typesafe.akka"           %  "akka-slf4j_2.11"          % Version.AKKA
   val logback       = "ch.qos.logback"              %   "logback-classic"         % Version.LOGBACK
-  val scalaz        = "org.scalaz"                  %%  "scalaz-core"             % Version.SCALAZ
-  val sprayCan      = "io.spray"                    %%  "spray-can"               % Version.SPRAY
-  val sprayRouting  = "io.spray"                    %%  "spray-routing"           % Version.SPRAY
-  val sprayjson     = "io.spray"                    %%  "spray-json"              % "1.3.2"
-  val spraytest     = "io.spray"                    %%  "spray-testkit"           % Version.SPRAY
-  val slick         = "com.typesafe.slick"          %%  "slick"                   % Version.SLICK
-  val slickhttp     = "com.typesafe.slick"          %%  "slick-http"              % Version.SLICK
-  val slickcodegen  = "com.typesafe.slick"          %%  "slick-codegen"           % Version.SLICK
+  val scalaz        = "org.scalaz"                  %   "scalaz-core_2.11"        % Version.SCALAZ
+  val sprayCan      = "io.spray"                    %   "spray-can_2.11"          % Version.SPRAY
+  val sprayRouting  = "io.spray"                    %   "spray-routing_2.11"      % Version.SPRAY
+  val sprayClient   = "io.spray"                    %   "spray-client_2.11"       % Version.SPRAY
+  val sprayjson     = "io.spray"                    %  "spray-json_2.11"          % "1.3.2"
+  val spraytest     = "io.spray"                    %  "spray-testkit_2.11"       % Version.SPRAY
+  val slick         = "com.typesafe.slick"          %  "slick_2.11"               % Version.SLICK
+  val slickhttp     = "com.typesafe.slick"          %  "slick-http_2.11"          % Version.SLICK
+  val slickcodegen  = "com.typesafe.slick"          %  "slick-codegen_2.11"       % Version.SLICK
   val typesafeConf  = "com.typesafe"                %   "config"                  % Version.CONFIG
-  val scalaGuice    = "net.codingwell"              %%  "scala-guice"             % Version.SCALAGUICE
+  val scalaGuice    = "net.codingwell"              %  "scala-guice_2.11"         % Version.SCALAGUICE
   val mysqlconn     = "mysql"                       %   "mysql-connector-java"    % Version.MYSQLCONN
-  val scalaLogging  = "com.typesafe.scala-logging"  %%  "scala-logging-slf4j"     % Version.SCALALOGGING
+  val scalaLogging  = "com.typesafe.scala-logging"  %   "scala-logging_2.11"      % Version.SCALALOGGING
   val cucumberJUnit = "info.cukes"                  %   "cucumber-junit"          % Version.CUCUMBER
   val cucumberGuice = "info.cukes"                  %   "cucumber-guice"          % Version.CUCUMBER
   val gherkin       = "info.cukes"                  %   "gherkin"                 % Version.GHERKIN
@@ -36,8 +37,10 @@ object Libs {
   val hikaricp      = "com.zaxxer"                  %   "HikariCP"                % Version.HIKARICP
   val scalaCompiler = "org.scala-lang"              %   "scala-compiler"          % Version.SCALA
   val scalaReflect  = "org.scala-lang"              %   "scala-reflect"           % Version.SCALA
+  val scalaModules  = "org.scala-lang-modules"      %   "scala-xml"               % "1.0.5"
   val aspectj       = "org.aspectj"                 %   "aspectjrt"               % Version.ASPECTJ
   val aspectjWeaver = "org.aspectj"                 %   "aspectjweaver"           % Version.ASPECTJ
   val jacksonBind   = "com.fasterxml.jackson.core"  %   "jackson-databind"        % Version.JACKSON
-  val jacksonScala  = "com.fasterxml.jackson.module"%   "jackson-module-scala_2.11" % "2.6.1"
+  val jacksonScala  = "com.fasterxml.jackson.module"% "jackson-module-scala_2.11" % Version.JACKSONMODULE
+  val scalajhttp    = "org.scalaj"                  %   "scalaj-http_2.11"        % Version.SCALAJHTTP
 }

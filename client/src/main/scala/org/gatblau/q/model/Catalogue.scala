@@ -25,5 +25,4 @@ case class Catalogue(
   name        : String,
   owner       : Option[String] = None,
   time        : Timestamp,
-  version     : Long
-)
+  version     : Long)

@@ -36,10 +36,9 @@ trait TrackingInterceptor extends ManagedProxy with Interceptor with Logging {
       }
       catch {
         // TODO: exception information is erased - need to find a solution
-        case e : Exception => {
+        case e : Exception =>
           logFail(e, String.format("Invocation failed."))
           null
-        }
       }
     }
     else {
@@ -48,6 +47,7 @@ trait TrackingInterceptor extends ManagedProxy with Interceptor with Logging {
   }
 
   private def logBefore(inv: Invocation) : Unit = {
+    logStep
     logAction(String.format(
       "Invoking method '%s' with parameters '%s'",
       inv.method,
@@ -61,10 +61,12 @@ trait TrackingInterceptor extends ManagedProxy with Interceptor with Logging {
 
   private def params(args: Array[AnyRef]) : String = {
     var s = ""
-    val len = args.length - 1
-    for (i <- 0 to len) {
-      s += mapper.writeValueAsString(args(i))
-      if (i < len) s += " - "
+    if (args != null) {
+      val len = args.length - 1
+      for (i <- 0 to len) {
+        s += mapper.writeValueAsString(args(i))
+        if (i < len) s += " - "
+      }
     }
     s
   }

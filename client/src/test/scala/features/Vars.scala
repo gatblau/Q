@@ -7,7 +7,7 @@ object Vars {
 
   val DATA_FILE_ROOT_FOLDER: String = "/data/"
   val DATA_FILE_EMPTY: String = DATA_FILE_ROOT_FOLDER + "empty.xml"
-  val DATA_FILE_CATALOGUE_REF: String = DATA_FILE_ROOT_FOLDER + "catalogue_ref.xml"
+  val CatalogueReference: String = DATA_FILE_ROOT_FOLDER + "catalogue_ref.xml"
   val DATA_FILE_CATALOGUE_NEW: String = DATA_FILE_ROOT_FOLDER + "catalogue_new.xml"
   val DATA_FILE_FEATURE_SET_REF: String = DATA_FILE_ROOT_FOLDER + "feature_set_ref.xml"
   val DATA_FILE_FEATURE_SET_NEW: String = DATA_FILE_ROOT_FOLDER + "feature_set_new.xml"
