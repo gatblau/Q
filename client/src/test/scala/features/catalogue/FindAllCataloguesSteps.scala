@@ -12,7 +12,7 @@ class FindAllCataloguesSteps extends Q {
 
   @Inject
   def init(client: Client): Unit = {
-    this.client = track[Client](client)
+    this.client = manage[Client](client)
   }
 
   @And("^there are a few feature catalogues in the system$")

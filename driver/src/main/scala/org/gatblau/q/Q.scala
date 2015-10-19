@@ -17,13 +17,17 @@
 package org.gatblau.q
 
 import org.gatblau.q.aspect.{TrackingInterceptor, ManagedProxy, ManagedFactory}
-import org.gatblau.q.util.{MapFactory, FileLoader}
+import org.gatblau.q.dsl.{Keeper, FileLoader, DataHandler, Comparer}
+import org.gatblau.q.util._
 
 trait Q {
+  val db = new DataHandler
   val load = new FileLoader
-  val map =new MapFactory
+  val map = new MapFactory
+  val compare = new Comparer
+  val keep = new Keeper
 
-  def track[T](instance: AnyRef)(implicit m: Manifest[T]) : T =
+  def manage[T](instance: AnyRef)(implicit m: Manifest[T]) : T =
     ManagedFactory.createComponent[T](
       m.runtimeClass.asInstanceOf[Class[T]], new ManagedProxy(instance) with TrackingInterceptor)
 }

@@ -16,7 +16,7 @@
 
 package org.gatblau.q.util
 
-import org.gatblau.q.FeatureInfo
+import org.gatblau.q.{StringValues, FeatureInfo}
 import org.slf4j.{LoggerFactory, Logger}
 
 trait Logging {
@@ -24,7 +24,7 @@ trait Logging {
   private var currentScenario: String = ""
   private var currentFeature: String = ""
 
-  import Strings._
+  import StringValues._
 
   private var logger: Logger = LoggerFactory.getLogger(classOf[Logging])
 

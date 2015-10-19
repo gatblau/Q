@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.util
+package org.gatblau.q.dsl
 
 import org.dbunit.dataset.IDataSet
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader
-import org.gatblau.q.util.Strings._
+import org.gatblau.q.StringValues
+import StringValues._
+import org.gatblau.q.util.{Cache, Logging, Record}
 
 class FileLoader extends Logging {
   def ->(path: String) : Persist = Persist(path)
+  def from(path: String) : Persist = Persist(path)
 
   private[FileLoader] case class Persist(path: String) {
 
     Cache.set(path, loadRecord(path))
 
-    def >>(source: String) : To = To(path, source)
+    def ->>(source: String) : To = To(path, source)
+    def to(source: String) : To = To(path, source)
 
     private[FileLoader] case class To(path: String, source: String) {
     }

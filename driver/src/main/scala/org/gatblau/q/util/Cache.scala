@@ -16,16 +16,17 @@
 
 package org.gatblau.q.util
 
-import org.gatblau.q.util.Strings._
+import org.gatblau.q.StringValues
+import StringValues._
 
 import scala.collection.mutable
 
 private[q] object Cache extends Logging {
   private var values = getCache
 
-  private[Cache] def getCache : mutable.WeakHashMap[String, AnyRef] = {
+  private[Cache] def getCache : mutable.WeakHashMap[String, Any] = {
     if (values == null) {
-      values = new mutable.WeakHashMap[String, AnyRef]()
+      values = new mutable.WeakHashMap[String, Any]()
     }
     values
   }
@@ -43,10 +44,10 @@ private[q] object Cache extends Logging {
     value.get.asInstanceOf[T]
   }
 
-  private[q] def set(key: String, value: AnyRef) {
+  private[q] def set(key: String, value: Any) {
     value match {
       case r : Record => logAction(String.format(getString(ACTION_SET_CACHE), key, " Record => " + r.toJSON))
-      case _ => logAction(String.format(getString(ACTION_SET_CACHE), key, value))
+      case _ => logAction(getString(ACTION_SET_CACHE) format (key, value))
     }
     values.put(key, value)
     logPass(getString(ACTION_CACHE_SET))

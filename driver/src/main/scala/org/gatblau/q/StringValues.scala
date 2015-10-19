@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.gatblau.q.util
+package org.gatblau.q
 
 import java.util.{Locale, ResourceBundle}
 
-object Strings {
+object StringValues {
   private val bundle: ResourceBundle = ResourceBundle.getBundle("Strings", Locale.getDefault)
 
   private[q] def getString(key: String): String = {
